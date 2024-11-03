@@ -51,20 +51,23 @@ class Player(Entity):
     def input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
+        # Horizontal Movement
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.direction.x = 1
             self.status = 'right'
-        elif keys[pygame.K_LEFT]:
+        elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.direction.x = -1
             self.status = 'left'
         else:
             self.direction.x = 0
 
-        if keys[pygame.K_UP] and self.on_floor:
+        # Jump
+        if keys[pygame.K_UP] and self.on_floor or keys[pygame.K_w] and self.on_floor:
             self.direction.y = -self.jump_speed
             self.jump.play()
 
-        if keys[pygame.K_DOWN]:
+        # Duck
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.duck = True
         else:
             self.duck = False
