@@ -16,8 +16,9 @@ This game uses assets from [Sunny Land Pixel Game Art](https://ansimuz.itch.io/s
 
 <h2>Keybinds</h2>
 <ul>
-    <li><strong>Arrow Keys</strong>: Movement</li>
-    <li><strong>Space</strong>: Jump</li>
+    <li><strong>A / D / Left Arrow / Right Arrow</strong>: Horizontal Movement</li>
+    <li><strong>W / Up Arrow</strong>: Jump</li>
+    <li><strong>S / Down Arrow</strong>: Duck</li>
 </ul>
 
 
