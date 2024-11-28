@@ -14,7 +14,7 @@ class AllSprites(pygame.sprite.Group):
 
         # imports
         self.fg_sky = pygame.image.load('graphics/sky/back.png').convert_alpha()
-        tmx_map = load_pygame('data/map.tmx')
+        tmx_map = load_pygame('data/map2.tmx')
 
         # Sky Setup
         self.padding = WINDOW_WIDTH /2
@@ -46,6 +46,12 @@ class Main:
         pygame.display.set_caption('Blazing Quest')
         self.clock = pygame.time.Clock()
 
+        self.levels = [
+            'data/map.tmx',
+            'data/map2.tmx'
+        ]
+
+        self.current_level_index = 0
         # groups 
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
@@ -58,8 +64,17 @@ class Main:
         self.setup()
 
     def setup(self):
-        tmx_map = load_pygame('data/map.tmx')
+        # Check if we've completed all levels
+        if self.current_level_index >= len(self.levels):
+            self.game_over()
+            return
+
+        tmx_map = load_pygame(self.levels[self.current_level_index])
         
+        # Clear existing sprites
+        self.all_sprites.empty()
+        self.collision_sprites.empty()
+
         # collision tiles 
         for x,y, surf in tmx_map.get_layer_by_name('Level').tiles():
             CollisionTile((x * 64,y * 64), surf, [self.all_sprites,self.collision_sprites])
@@ -86,10 +101,12 @@ class Main:
                 self.game_over()
                 break 
 
-            # checks if player has reched end of level if true runs game won screen
+            # checks if player has reached end of level 
             elif self.player.rect.colliderect(self.end_area):
-                self.game_over()  # Call game won method
-                break
+                # Progress to next level
+                self.current_level_index += 1
+                self.setup()
+                continue
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -138,6 +155,9 @@ class Main:
                     waiting = False
     
     def reset_game(self):
+        # resets to starting level
+        self.current_level_index = 0
+
         # Resets existing sprites
         self.all_sprites.empty()
         self.collision_sprites.empty()
